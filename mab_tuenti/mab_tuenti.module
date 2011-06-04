@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * Implements hook_menu()
+ */
+function mab_tuenti_menu() {
+
+  $items['admin/config/services/mab_tuenti'] = array(
+    'title'            => 'tuenti like this',
+    'description'      => 'Configure tuenti like this button settings',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('mab_tuenti_admin_settings'),
+    'access arguments' => array('administer Tweet'),
+    'file'             => 'mab_tuenti.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_theme()
+ */
+function mab_tuenti_theme() {
+	return array(
+    'mab_tuenti_button' => array(
+      'variables' => array('object' => NULL),
+    )
+  );
+}
+
+/**
+ * Implements hook_permission()
+ */
+function mab_tuenti_permission() {
+  return array(
+    'administer mab_tuenti' => array(
+      'title' => t('Administer Tweet'),
+    ),
+    'view mab_tuenti' => array(
+      'title' => t('View Tweet'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_node_view()
+ */
+function mab_tuenti_node_view($node, $view_mode) {
+  if (in_array($node->type, variable_get('mab_tuenti_node_types', array('article')), TRUE)
+      && user_access('view mab_tuenti')) {
+
+     $show_on_teasers = variable_get('mab_tuenti_showonteasers', 0);
+
+     if ($view_mode == 'full' || ($view_mode == 'teaser' && $show_on_teasers)) {
+
+        $node->content['mab_tuenti'] = array(
+          '#weight'  => variable_get('mab_tuenti_weight', -5),
+          '#theme'   => 'mab_tuenti_button',
+          '#object'   => $node,
+        );
+     }
+  }
+}
+
+/**
+ * Returns HTML for the tuenti share button
+ *
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - object: The node object
+ *
+ * @ingroup themeable
+ */
+function theme_mab_tuenti_button($variables) {
+  global $base_url;
+
+  $button = '<div class="mabtuenti"><script type="text/javascript" src="http://widgets.tuenti.com/widgets.js"></script><a href="http://www.tuenti.com/share" class="tuenti-share-button"></a></div>';
+
+  return $button;
+}

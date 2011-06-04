@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function mab_tuenti_uninstall() {
+
+	variable_del('mab_tuenti_node_types');
+  variable_del('mab_tuenti_showonteasers');
+  variable_del('mab_tuenti_count');
+  variable_del('mab_tuenti_size');
+  variable_del('mab_tuenti_weight');
+
+}

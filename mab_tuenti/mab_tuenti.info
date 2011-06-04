@@ -1,0 +1,15 @@
+name = tuenti like this
+description = Adds tuenti like this button to the nodes.
+core = 7.x
+
+files[] = mab_tuenti.module
+files[] = mab_tuenti.install
+files[] = mab_tuenti.admin.inc
+
+configure = admin/config/services/mab_tuenti
+; Information added by drupal.org packaging script on 2011-06-04
+version = "7.x-1.0-beta4"
+core = "7.x"
+project = "mab_tuenti"
+datestamp = "1307209015"
+
